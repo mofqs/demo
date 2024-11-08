@@ -44,6 +44,9 @@ public class DemoController implements WebMvcConfigurer {
 	@PostMapping("/")
 	public String checkPersonInfo(@Valid PersonForm personForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
+	    int userCount = mapper.getNumOfUser();
+	    model.addAttribute("userCount", userCount);
+
 		if (bindingResult.hasErrors()) {
 			return "form";
 		}
