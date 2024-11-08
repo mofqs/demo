@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 
 public class PersonForm {
 	@NotNull
+	@Min(value = 1, message = "{validation.id.min}")
 	private Integer id;
 
 	@NotNull
@@ -13,7 +14,7 @@ public class PersonForm {
 	private String name;
 
 	@NotNull
-	@Min(18)
+	@Min(value = 18, message = "{validation.age.min}")
 	private Integer age;
 
 	public Integer getId() {

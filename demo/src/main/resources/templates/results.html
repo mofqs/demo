@@ -7,11 +7,13 @@
 <body>
 	<p th:text="${message}"></p>
 	<div th:if="${username != null}">
-    <p>用户名: <span th:text="${username}"></span></p>
+    <p th:text="#{p.nameText(${username})}"></p>
 	</div>
 	<div th:if="${userage != null}">
-    <p>年龄: <span th:text="${userage}"></span></p>
+    <p th:text="#{p.ageText(${userage})}"></p>
 	</div>
-	<label th:text = "#{lable.resultsText}"/>
+	<div th:if="${username != null}">
+	<label th:text = "#{lable.resultsText}"></label>
+	</div>
 </body>
 </html>

@@ -2,7 +2,11 @@ package com.example.demo.controller;
 
 import jakarta.validation.Valid;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +27,8 @@ import com.example.demo.persistence.UserMapper;
 
 public class DemoController implements WebMvcConfigurer {
 
-
+	@Autowired
+    private MessageSource messageSource;
 
     @Autowired
     private UserMapper mapper;
@@ -50,20 +55,21 @@ public class DemoController implements WebMvcConfigurer {
 		if (bindingResult.hasErrors()) {
 			return "form";
 		}
-
+		//不跳转
 		/*
 		 * User existingUser = mapper.getUserById(personForm.getId());
 		 *
-		 * if (existingUser != null) { model.addAttribute("message", "用户已存在");
+		 * if (existingUser != null) { model.addAttribute("message", messageSource.getMessage("form.userExists", null, LocaleContextHolder.getLocale()));
 		 * model.addAttribute("username", existingUser.getName());
 		 * model.addAttribute("userage", existingUser.getAge()); } else { User newUser =
 		 * new User(); newUser.setId(personForm.getId());
 		 * newUser.setName(personForm.getName()); newUser.setAge(personForm.getAge());
 		 *
-		 * mapper.createUser(newUser); model.addAttribute("message", "用户已创建");
+		 * mapper.createUser(newUser); model.addAttribute("message", messageSource.getMessage("form.userCreated", null, LocaleContextHolder.getLocale()));
 		 * model.addAttribute("username", newUser.getName());
 		 * model.addAttribute("userage", newUser.getAge()); } return "results";
 		 */
+		//跳转
 	    User existingUser = mapper.getUserById(personForm.getId());
 
 	    if (existingUser != null) {
@@ -81,9 +87,9 @@ public class DemoController implements WebMvcConfigurer {
 
 	        if (isUpdated) {
 	            mapper.updateUser(existingUser);
-	            redirectAttributes.addFlashAttribute("message", "用户信息已更新");
+	            redirectAttributes.addFlashAttribute("message", messageSource.getMessage("form.userUpdated", null, LocaleContextHolder.getLocale()));
 	        } else {
-	            redirectAttributes.addFlashAttribute("message", "用户信息没有变化");
+	            redirectAttributes.addFlashAttribute("message", messageSource.getMessage("form.userExists", null, LocaleContextHolder.getLocale()));
 	        }
 	        redirectAttributes.addFlashAttribute("username", existingUser.getName());
 	        redirectAttributes.addFlashAttribute("userage", existingUser.getAge());
@@ -95,7 +101,7 @@ public class DemoController implements WebMvcConfigurer {
 
 	        mapper.createUser(newUser);
 
-	        redirectAttributes.addFlashAttribute("message", "用户已创建");
+	        redirectAttributes.addFlashAttribute("message", messageSource.getMessage("form.userCreated", null, LocaleContextHolder.getLocale()));
 	        redirectAttributes.addFlashAttribute("username", newUser.getName());
 	        redirectAttributes.addFlashAttribute("userage", newUser.getAge());
 	    }
@@ -103,15 +109,15 @@ public class DemoController implements WebMvcConfigurer {
 	    return "redirect:/results";
 	}
 	@PostMapping("/delete")
-	public String deleteUser(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
+	public String deleteUser(@RequestParam Integer id, RedirectAttributes redirectAttributes) {
 
 	    User existingUser = mapper.getUserById(id);
 
 	    if (existingUser != null) {
 	        mapper.deleteUser(id);
-	        redirectAttributes.addFlashAttribute("message", "用户已删除");
+	        redirectAttributes.addFlashAttribute("message", messageSource.getMessage("form.userDeleted", null, LocaleContextHolder.getLocale()));
 	    } else {
-	        redirectAttributes.addFlashAttribute("message", "用户不存在");
+	        redirectAttributes.addFlashAttribute("message", messageSource.getMessage("form.userNotFound", null, LocaleContextHolder.getLocale()));
 	    }
 	    redirectAttributes.addFlashAttribute("username", null);
 	    redirectAttributes.addFlashAttribute("userage", null);
