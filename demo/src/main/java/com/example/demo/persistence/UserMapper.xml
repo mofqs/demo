@@ -4,23 +4,20 @@
 
 <mapper namespace="com.example.demo.persistence.UserMapper">
 	<select id="getUserById" parameterType="Integer" resultType="com.example.demo.dto.User">
-		SELECT * from form where id = #{id}
+		SELECT * from public.form where id = #{id}
 	</select>
 
-<!-- 	<insert id="createUser" parameterType="User">
-		INSERT INTO form (id,name) VALUES (#{id}, #{name})
+	<insert id="createUser" parameterType="com.example.demo.dto.User">
+	INSERT INTO public.form (id,name,age) VALUES (#{id}, #{name}, #{age})
 	</insert>
-
-	<update id="updateUser" parameterType="User">
-		UPDATE form set name = #{name} where id = #{id}
+	<update id="updateUser" parameterType="com.example.demo.dto.User">
+		UPDATE public.form set name = #{name}, age = #{age} where id = #{id}
 	</update>
-
-	<delete id="deleteUser">
-		DELETE from form where id = #{id}
+	<delete id="deleteUser" parameterType="Integer">
+		DELETE from public.form where id = #{id}
 	</delete>
-
 	<select id="getNumOfUser" resultType="int">
-		SELECT count(*) from form
-	</select> -->
+		SELECT count(*) from public.form
+	</select>
 
 </mapper>

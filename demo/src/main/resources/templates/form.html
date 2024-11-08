@@ -5,24 +5,29 @@
 <title>form</title>
 </head>
 <body>
-	<p th:text="|${username22}|" />
-	<form action="#" th:action="@{/}" th:object="${personForm}"
-		method="post">
+	<div>
+    	<p th:text="#{p.countText(${userCount})}"></p>
+	</div>
+	<form action="#" th:action="@{/}" th:object="${personForm}" method="post">
 		<table>
 			<tr>
-				<td th:text = "#{td.nameText}"></td>
+				<td th:text="#{td.idText}"></td>
+				<td><input type="text" th:field="*{id}" /></td>
+				<td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Id Error</td>
+			</tr>
+			<tr>
+				<td th:text="#{td.nameText}"></td>
 				<td><input type="text" th:field="*{name}" /></td>
-				<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name
-					Error</td>
+				<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
 			</tr>
 			<tr>
 				<td th:text = "#{td.ageText}"></td>
 				<td><input type="text" th:field="*{age}" /></td>
-				<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age
-					Error</td>
+				<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
 			</tr>
 			<tr>
 				<td><button type="submit"  th:text = "#{button.submitText}"></button></td>
+				<td><button type="submit" formaction="/delete" formmethod="post"  th:text = "#{button.deleteText}"></button></td>
 			</tr>
 		</table>
 	</form>

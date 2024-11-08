@@ -6,12 +6,23 @@ import jakarta.validation.constraints.Size;
 
 public class PersonForm {
 	@NotNull
+	private Integer id;
+
+	@NotNull
 	@Size(min=2, max=30)
 	private String name;
 
 	@NotNull
 	@Min(18)
 	private Integer age;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return this.name;
@@ -30,6 +41,6 @@ public class PersonForm {
 	}
 
 	public String toString() {
-		return "Person(Name: " + this.name + ", Age: " + this.age + ")";
+		return "Person(Id: " + this.id + ", Name: " + this.name + ", Age: " + this.age + ")";
 	}
 }
