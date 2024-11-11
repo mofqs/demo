@@ -13,7 +13,7 @@
 	<div>
     	<p th:text="#{p.countText(${userCount})}"></p>
 	</div>
-	<form action="#" th:action="@{/}" th:object="${personForm}" method="post">
+	<form th:action="@{/}" th:object="${personForm}" method="post">
 		<table>
 			<tr>
 				<td th:text="#{td.idText}"></td>
