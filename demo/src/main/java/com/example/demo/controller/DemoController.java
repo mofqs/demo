@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,14 +48,19 @@ public class DemoController implements WebMvcConfigurer {
 
 	    model.addAttribute("userCount", userCount);
 
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        model.addAttribute("currentuser", userDetails.getUsername());
+	    } else {
+	        model.addAttribute("currentuser", "Guest");
+	    }
+
 		return "form";
 	}
 
 	@PostMapping("/")
-	public String checkPersonInfo(@Valid PersonForm personForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-
-	    int userCount = mapper.getNumOfUser();
-	    model.addAttribute("userCount", userCount);
+	public String checkPersonInfo(@Valid PersonForm personForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
 		if (bindingResult.hasErrors()) {
 			return "form";
@@ -130,5 +137,9 @@ public class DemoController implements WebMvcConfigurer {
 	@GetMapping("/login")
 	public String showLoginPage() {
 	    return "login";
+	}
+	@GetMapping("/logout")
+	public String showLogoutPage() {
+	    return "logout";
 	}
 }
