@@ -138,8 +138,4 @@ public class DemoController implements WebMvcConfigurer {
 	public String showLoginPage() {
 	    return "login";
 	}
-	@GetMapping("/logout")
-	public String showLogoutPage() {
-	    return "logout";
-	}
 }
