@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax</title>
+    <script>
+        function getData() {
+            fetch('/api/getData')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("getDataResult").innerText = data;
+                })
+                .catch(error => console.error("获取数据出错:", error));
+        }
+
+        function postData() {
+            const dataToSend = "示例数据";
+
+            fetch('/api/postData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("postDataResult").innerText = data;
+            })
+            .catch(error => console.error("发送数据出错:", error));
+        }
+    </script>
+</head>
+<body>
+
+    <h2>ajax</h2>
+
+    <button onclick="getData()">获取数据</button>
+    <p id="getDataResult"></p>
+
+    <button onclick="postData()">发送数据</button>
+    <p id="postDataResult"></p>
+
+</body>
+</html>

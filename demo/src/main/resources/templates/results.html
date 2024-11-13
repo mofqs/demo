@@ -2,18 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>results</title>
+<title>Results</title>
+<link rel="stylesheet" href="/css/results.css">
 </head>
 <body>
 	<p th:text="${message}"></p>
 	<div th:if="${username != null}">
-    <p th:text="#{p.nameText(${username})}"></p>
+		<p th:text="#{p.nameText(${username})}"></p>
 	</div>
 	<div th:if="${userage != null}">
-    <p th:text="#{p.ageText(${userage})}"></p>
+		<p th:text="#{p.ageText(${userage})}"></p>
 	</div>
 	<div th:if="${username != null}">
-	<label th:text = "#{lable.resultsText}"></label>
+		<label th:text="#{lable.resultsText}"></label>
 	</div>
 </body>
 </html>

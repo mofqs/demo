@@ -3,10 +3,11 @@
 <head>
 	<meta charset="UTF-8">
     <title>login</title>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-    <h2 th:text="#{h2.titleText}"></h2>
     <form th:action="@{/login}" method="post">
+    	<h2 th:text="#{h2.titleText}"></h2>
         <div>
             <label th:text="#{label.usernameText}" for="username"></label>
             <input type="text" id="username" name="username"/>

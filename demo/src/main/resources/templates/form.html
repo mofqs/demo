@@ -3,53 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <title>form</title>
+<link rel="stylesheet" href="/css/form.css">
 </head>
 <body>
-	<div>
-		<a href="?lang=en_US">English(US)</a> |
-		<a href="?lang=zh_CN">简体中文</a> |
-		<a href="?lang=zh_TW">繁体中文</a>
+
+	<div class="header">
+		<div class="language-switch">
+			<a href="?lang=en_US">English(US)</a> |
+			<a href="?lang=zh_CN">简体中文</a> |
+			<a href="?lang=zh_TW">繁体中文</a>
+		</div>
+		<div class="user-info">
+			<p th:text="#{p.currentuserText(${currentuser})}"></p>
+		</div>
+		<div class="auth-button">
+			<th:block sec:authorize="isAuthenticated()">
+				<form th:action="@{/logout}" method="post">
+					<button type="submit" th:text="#{button.logoutText}" class="btn"></button>
+				</form>
+			</th:block>
+			<th:block sec:authorize="isAnonymous()">
+				<form th:action="@{/login}" method="get">
+					<button type="submit" th:text="#{button.loginText}" class="btn"></button>
+				</form>
+			</th:block>
+		</div>
 	</div>
-    <div>
-        <th:block sec:authorize="isAuthenticated()">
-			<form th:action="@{/logout}" method="post">
-				<button type="submit" th:text = "#{button.logoutText}"></button>
-			</form>
-		</th:block>
-        <th:block sec:authorize="isAnonymous()">
-            <form th:action="@{/login}" method="get">
-        		<button type="submit" th:text = "#{button.loginText}"></button>
-    		</form>
-        </th:block>
-    </div>
-	<div>
-		<p th:text="#{p.currentuserText(${currentuser})}"></p>
-    </div>
-	<div>
-    	<p th:text="#{p.countText(${userCount})}"></p>
+
+	<div class="main-content">
+		<div>
+			<p th:text="#{p.countText(${userCount})}"></p>
+		</div>
+		<form th:action="@{/}" th:object="${personForm}" method="post">
+			<table>
+				<tr>
+					<td th:text="#{td.idText}"></td>
+					<td><input type="text" th:field="*{id}" /></td>
+					<td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Id Error</td>
+				</tr>
+				<tr>
+					<td th:text="#{td.nameText}"></td>
+					<td><input type="text" th:field="*{name}" /></td>
+					<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+				</tr>
+				<tr>
+					<td th:text="#{td.ageText}"></td>
+					<td><input type="text" th:field="*{age}" /></td>
+					<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
+				</tr>
+				<tr>
+					<td><button type="submit" th:text="#{button.submitText}" class="btn"></button></td>
+					<td><button type="submit" formaction="/delete" formmethod="post" th:text="#{button.deleteText}" class="btn"></button></td>
+				</tr>
+			</table>
+		</form>
 	</div>
-	<form th:action="@{/}" th:object="${personForm}" method="post">
-		<table>
-			<tr>
-				<td th:text="#{td.idText}"></td>
-				<td><input type="text" th:field="*{id}" /></td>
-				<td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Id Error</td>
-			</tr>
-			<tr>
-				<td th:text="#{td.nameText}"></td>
-				<td><input type="text" th:field="*{name}" /></td>
-				<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
-			</tr>
-			<tr>
-				<td th:text = "#{td.ageText}"></td>
-				<td><input type="text" th:field="*{age}" /></td>
-				<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
-			</tr>
-			<tr>
-				<td><button type="submit"  th:text = "#{button.submitText}"></button></td>
-				<td><button type="submit" formaction="/delete" formmethod="post"  th:text = "#{button.deleteText}"></button></td>
-			</tr>
-		</table>
-	</form>
 </body>
 </html>

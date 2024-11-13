@@ -138,4 +138,8 @@ public class DemoController implements WebMvcConfigurer {
 	public String showLoginPage() {
 	    return "login";
 	}
+	@GetMapping("/ajax")
+	public String showAjaxPage() {
+	    return "ajax";
+	}
 }

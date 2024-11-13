@@ -1,0 +1,51 @@
+/* 全局样式 */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* 内容容器 */
+div {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* 段落文本样式 */
+p {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+/* 标题样式 */
+label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* 结果显示样式 */
+div th\:if {
+    margin-top: 15px;
+}
+
+/* 错误或提示信息 */
+.error {
+    color: #d9534f;
+    font-size: 14px;
+}
