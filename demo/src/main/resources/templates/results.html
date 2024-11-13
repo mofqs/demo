@@ -5,9 +5,6 @@
 <title>results</title>
 </head>
 <body>
-	<div>
-        <p>Welcome, <span th:text="${currentuser}">User</span>!</p>
-    </div>
 	<p th:text="${message}"></p>
 	<div th:if="${username != null}">
     <p th:text="#{p.nameText(${username})}"></p>
