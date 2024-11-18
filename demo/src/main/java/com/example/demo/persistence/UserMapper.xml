@@ -19,5 +19,7 @@
 	<select id="getNumOfUser" resultType="int">
 		SELECT count(*) from public.form
 	</select>
-
+	<select id="getAllUsers" resultType="com.example.demo.dto.User">
+    	SELECT * from public.form ORDER BY id ASC
+	</select>
 </mapper>

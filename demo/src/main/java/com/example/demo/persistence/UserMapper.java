@@ -1,5 +1,7 @@
 package com.example.demo.persistence;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.dto.User;
@@ -15,5 +17,7 @@ public interface UserMapper {
 	void deleteUser(Integer id);
 
 	int getNumOfUser();
+
+	List<User> getAllUsers();
 
 }

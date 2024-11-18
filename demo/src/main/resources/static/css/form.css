@@ -31,6 +31,13 @@ body {
     text-decoration: underline;
 }
 
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+}
+
 .user-info p {
     font-size: 16px;
     color: #444;
@@ -113,4 +120,74 @@ form table input[type="text"] {
 form table td[*|if] {
     color: #d9534f;
     font-size: 12px;
+}
+/* 用户列表样式 */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+ul li {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+ul li:hover {
+    background-color: #f1f1f1;
+}
+
+ul li:last-child {
+    border-bottom: none;
+}
+
+/* 每个用户 ID 和名字的样式 */
+ul li span {
+    font-weight: bold;
+}
+
+/* 调整用户年龄显示的样式 */
+ul li .age {
+    color: #888;
+    font-size: 14px;
+}
+
+/* 响应式设计，调整小屏幕下的布局 */
+@media (max-width: 600px) {
+    ul li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    ul li span,
+    ul li .age {
+        display: block;
+        margin: 5px 0;
+    }
+}
+/* 个人中心 */
+.btn-circle {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #c0c0c0;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.btn-circle:hover {
+    background-color: #ffffff;
 }

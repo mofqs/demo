@@ -1,0 +1,69 @@
+/* 设置页面背景颜色和字体 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    flex-direction: column; /* 让子元素垂直排列 */
+    position: relative;  /* 为了定位 h1 */
+}
+
+/* 设置标题的样式，使其位于左上角 */
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #e74c3c;  /* 红色，表示错误或警告 */
+    position: absolute;  /* 使用绝对定位 */
+    top: 20px;  /* 距离页面顶部 20px */
+    left: 20px;  /* 距离页面左侧 20px */
+}
+
+/* 设置正文内容的样式，居中显示 */
+p {
+    font-size: 18px;
+    color: #555;
+    margin: 0;
+    max-width: 600px;
+    text-align: center;  /* 使文本居中 */
+    margin-bottom: 30px;
+}
+
+/* 设置按钮样式，居中显示 */
+a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;  /* 蓝色 */
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-top: 20px;  /* 按钮距离 p 标签 20px */
+}
+
+/* 鼠标悬停时改变按钮颜色 */
+a:hover {
+    background-color: #2980b9;
+}
+
+/* 小屏幕适配 */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    a {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}

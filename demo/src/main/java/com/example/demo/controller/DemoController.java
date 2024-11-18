@@ -2,15 +2,18 @@ package com.example.demo.controller;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -27,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.dto.User;
 import com.example.demo.form.PersonForm;
 import com.example.demo.persistence.UserMapper;
+import com.example.demo.persistence.UserdetailMapper;
 
 @Controller
 
@@ -34,6 +39,10 @@ public class DemoController implements WebMvcConfigurer {
 
 	@Autowired
     private MessageSource messageSource;
+    @Autowired
+    private UserdetailMapper userdetailMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserMapper mapper;
@@ -47,6 +56,8 @@ public class DemoController implements WebMvcConfigurer {
 		int userCount = mapper.getNumOfUser();
 
 	    model.addAttribute("userCount", userCount);
+	    model.addAttribute("userAgeText", messageSource.getMessage("user.ageText", null, LocaleContextHolder.getLocale()));
+	    model.addAttribute("fetchUsersErrorText", messageSource.getMessage("fetchUsers.errorText", null, LocaleContextHolder.getLocale()));
 
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
@@ -141,5 +152,58 @@ public class DemoController implements WebMvcConfigurer {
 	@GetMapping("/ajax")
 	public String showAjaxPage() {
 	    return "ajax";
+	}
+    @RequestMapping("/access-denied")
+    public String accessDenied() {
+        return "access-denied";
+    }
+    @GetMapping("/personal-center")
+    public String showPersonalCenter(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        model.addAttribute("username", userDetails.getUsername());
+        return "personal-center";
+    }
+    @PostMapping("/updateUsername")
+    @ResponseBody
+    public String updateUsername(@RequestParam String username, @AuthenticationPrincipal UserDetails userDetails) {
+        if (username == null || username.trim().isEmpty()) {
+            return "Not Null";
+        }
+    	String currentUsername = userDetails.getUsername();
+
+        userdetailMapper.updateUsername(currentUsername, username);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(
+            userDetails,
+            authentication.getCredentials(),
+            authentication.getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+
+        SecurityContextHolder.clearContext();
+
+        return "Success";
+    }
+
+    @PostMapping("/updatePassword")
+    @ResponseBody
+    public String updatePassword(@RequestParam String password, @AuthenticationPrincipal UserDetails userDetails) {
+        if (password == null || password.trim().isEmpty()) {
+            return "Not Null";
+        }
+        String username = userDetails.getUsername();
+
+        String encodedPassword = passwordEncoder.encode(password);
+
+        userdetailMapper.updatePassword(username, encodedPassword);
+
+        SecurityContextHolder.clearContext();
+
+        return "Success";
+    }
+	@GetMapping("/getAllUsers")
+	@ResponseBody
+	public List<User> getAllUsers() {
+	    return mapper.getAllUsers();
 	}
 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{personal.title}">personal-center</title>
+    <link rel="stylesheet" href="/css/personal-center.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+    var messages = {
+        usernameUpdateSuccess: "[[#{personal.usernameUpdateSuccess}]]",
+        usernameUpdateFail: "[[#{personal.usernameUpdateFail}]]",
+        passwordUpdateSuccess: "[[#{personal.passwordUpdateSuccess}]]",
+        passwordUpdateFail: "[[#{personal.passwordUpdateFail}]]"
+    };
+	</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#changeUsernameBtn").click(function() {
+                $("#usernameForm").show();
+            });
+
+            $("#submitUsernameBtn").click(function() {
+                var newUsername = $("#newUsername").val().trim();
+                if (!newUsername) {
+                    alert("[[#{personal.usernameEmptyError}]]");
+                    return;
+                }
+                $.ajax({
+                    url: "/updateUsername",
+                    type: "POST",
+                    data: { username: newUsername },
+                    success: function(response) {
+                        alert(messages.usernameUpdateSuccess);
+                        window.location.href = "/login";
+                    },
+                    error: function(error) {
+                        alert(messages.usernameUpdateFail);
+                    }
+                });
+            });
+            $("#changePasswordBtn").click(function() {
+                $("#passwordForm").show();
+            });
+            $("#submitPasswordBtn").click(function() {
+                var newPassword = $("#newPassword").val().trim();
+                if (!newPassword) {
+                    alert("[[#{personal.passwordEmptyError}]]");
+                    return;
+                }
+                $.ajax({
+                    url: "/updatePassword",
+                    type: "POST",
+                    data: { password: newPassword },
+                    success: function(response) {
+                        alert(messages.passwordUpdateSuccess);
+                        window.location.href = "/login";
+                    },
+                    error: function(error) {
+                        alert(messages.passwordUpdateFail);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1 th:text="#{personal.title}"></h1>
+    <p th:text="#{personal.currentUsername} + ${username}"></p>
+
+    <button id="changeUsernameBtn" th:text="#{personal.changeUsername}"></button>
+    <div id="usernameForm" style="display:none;">
+        <input type="text" id="newUsername" th:placeholder="#{personal.enterNewUsername}" />
+        <button id="submitUsernameBtn" th:text="#{personal.submit}"></button>
+    </div>
+
+    <button id="changePasswordBtn" th:text="#{personal.changePassword}"></button>
+    <div id="passwordForm" style="display:none;">
+        <input type="password" id="newPassword" th:placeholder="#{personal.enterNewPassword}" />
+        <button id="submitPasswordBtn" th:text="#{personal.submit}"></button>
+    </div>
+</body>
+</html>
